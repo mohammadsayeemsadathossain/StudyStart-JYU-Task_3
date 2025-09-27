@@ -1,0 +1,11 @@
+fi\jyu\ties4560\rest\model\Profile.class
+fi\jyu\ties4560\rest\config\RestApplication.class
+fi\jyu\ties4560\rest\exception\ProfileNotFoundExceptionMapper.class
+fi\jyu\ties4560\rest\model\Document.class
+fi\jyu\ties4560\rest\resource\DocumentResource.class
+fi\jyu\ties4560\rest\service\ProfileService.class
+fi\jyu\ties4560\rest\exception\ProfileNotFoundException.class
+fi\jyu\ties4560\rest\model\Link.class
+fi\jyu\ties4560\rest\service\DocumentService.class
+fi\jyu\ties4560\rest\resource\ProfileResource.class
+fi\jyu\ties4560\rest\model\ErrorMessage.class
