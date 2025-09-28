@@ -1,6 +1,7 @@
 package fi.jyu.ties4560.rest.config;
 
 import fi.jyu.ties4560.rest.resource.DocumentResource;
+import fi.jyu.ties4560.rest.resource.DocumentUploadResource;
 import fi.jyu.ties4560.rest.resource.ProfileResource;
 import fi.jyu.ties4560.rest.exception.BadRequestExceptionMapper;
 import fi.jyu.ties4560.rest.exception.ProfileNotFoundExceptionMapper;
@@ -19,6 +20,7 @@ public class RestApplication extends Application {
         // Resources
         classes.add(ProfileResource.class);
         classes.add(DocumentResource.class);
+        classes.add(DocumentUploadResource.class);
         
         // Exception Mappers
         classes.add(ProfileNotFoundExceptionMapper.class);

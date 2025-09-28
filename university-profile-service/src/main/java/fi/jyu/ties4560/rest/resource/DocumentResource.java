@@ -40,6 +40,9 @@ public class DocumentResource {
     public Response addDocument(@PathParam("profileId") long profileId,
                               Document document,
                               @Context UriInfo uriInfo) {
+    	if (document.getDocumentType() == null) {
+    	    throw new IllegalArgumentException("documentType is required (PASSPORT, RP_CARD, ACCEPTANCE_LETTER)");
+    	  }
         Document newDocument = documentService.addDocument(profileId, document);
         addLinks(newDocument, profileId, uriInfo);
         

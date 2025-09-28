@@ -16,6 +16,11 @@ public class Document {
     private Date expiryDate;
     private List<Link> links = new ArrayList<>();
     
+    private String contentType;
+    private long   sizeBytes;
+    private String storagePath;
+
+    
     public Document() {}
     
     public Document(long id, long profileId, String documentType, 
@@ -61,4 +66,11 @@ public class Document {
     
     public List<Link> getLinks() { return links; }
     public void setLinks(List<Link> links) { this.links = links; }
+    
+    public String getContentType() { return contentType; }
+    public void setContentType(String contentType) { this.contentType = contentType; }
+    public long getSizeBytes() { return sizeBytes; }
+    public void setSizeBytes(long sizeBytes) { this.sizeBytes = sizeBytes; }
+    public String getStoragePath() { return storagePath; }
+    public void setStoragePath(String storagePath) { this.storagePath = storagePath; }
 }
