@@ -101,6 +101,79 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "http://localhost:8080/university-profile-service/api/profiles",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Mushfiqul Islam\",\r\n  \"lastName\": \"Chowdhury\",\r\n  \"email\": \"mushfiqul.isl.chowdhury@jyu.fi\",\r\n  \"department\": \"Information Technology\",\r\n  \"program\": \"MSc Artificial Intelligence\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/university-profile-service/api/profiles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"university-profile-service",
+						"api",
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/university-profile-service/api/profiles/3/documents/RP_CARD/upload",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/pdf",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Users/ASUS/Downloads/Chowdhury, M DVV.pdf"
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/university-profile-service/api/profiles/3/documents/RP_CARD/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"university-profile-service",
+						"api",
+						"profiles",
+						"3",
+						"documents",
+						"RP_CARD",
+						"upload"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [
