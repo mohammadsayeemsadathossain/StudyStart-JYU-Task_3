@@ -1,0 +1,32 @@
+{
+	"info": {
+		"_postman_id": "dc72add4-13f6-41b0-8917-c994f40eb356",
+		"name": "Study Start JYU",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48849907",
+		"_collection_link": "https://nnahid878-8212314.postman.co/workspace/Mushfiqul-lslam-Chowdhury's-Wor~a0fe1e29-f74a-4b14-82c2-a04bd28fcb7f/collection/48849907-dc72add4-13f6-41b0-8917-c994f40eb356?action=share&source=collection_link&creator=48849907"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/university-profile-service/api/profiles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"university-profile-service",
+						"api",
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
