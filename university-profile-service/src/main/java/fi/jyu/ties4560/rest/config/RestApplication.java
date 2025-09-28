@@ -1,6 +1,8 @@
 package fi.jyu.ties4560.rest.config;
 
+import fi.jyu.ties4560.rest.resource.DocumentResource;
 import fi.jyu.ties4560.rest.resource.ProfileResource;
+import fi.jyu.ties4560.rest.exception.BadRequestExceptionMapper;
 import fi.jyu.ties4560.rest.exception.ProfileNotFoundExceptionMapper;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -16,9 +18,11 @@ public class RestApplication extends Application {
         
         // Resources
         classes.add(ProfileResource.class);
+        classes.add(DocumentResource.class);
         
         // Exception Mappers
         classes.add(ProfileNotFoundExceptionMapper.class);
+        classes.add(BadRequestExceptionMapper.class);
         
         return classes;
     }

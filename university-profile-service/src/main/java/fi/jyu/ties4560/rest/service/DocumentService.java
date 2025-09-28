@@ -36,6 +36,11 @@ public class DocumentService {
     }
     
     public Document addDocument(long profileId, Document document) {
+    	if (document.getDocumentType() == null) {
+    	    throw new IllegalArgumentException(
+    	      "documentType is required (allowed: PASSPORT, RP_CARD, ACCEPTANCE_LETTER)");
+    	  }
+    	
         document.setId(idCounter.getAndIncrement());
         document.setProfileId(profileId);
         document.setUploadDate(new Date());
@@ -44,6 +49,11 @@ public class DocumentService {
     }
     
     public Document updateDocument(long profileId, Document document) {
+    	if (document.getDocumentType() == null) {
+    	    throw new IllegalArgumentException(
+    	      "documentType is required (allowed: PASSPORT, RP_CARD, ACCEPTANCE_LETTER)");
+    	  }
+    	
         Document existing = documents.get(document.getId());
         if (existing == null || existing.getProfileId() != profileId) {
             throw new ProfileNotFoundException("Document with id " + document.getId() + 
