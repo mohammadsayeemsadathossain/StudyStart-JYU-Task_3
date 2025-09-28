@@ -9,7 +9,7 @@ import java.util.List;
 public class Document {
     private long id;
     private long profileId;
-    private String documentType;
+    private DocumentType documentType;
     private String fileName;
     private String status;
     private Date uploadDate;
@@ -22,7 +22,7 @@ public class Document {
                    String fileName, String status) {
         this.id = id;
         this.profileId = profileId;
-        this.documentType = documentType;
+        this.documentType = DocumentType.fromString(documentType);
         this.fileName = fileName;
         this.status = status;
         this.uploadDate = new Date();
@@ -40,8 +40,12 @@ public class Document {
     public long getProfileId() { return profileId; }
     public void setProfileId(long profileId) { this.profileId = profileId; }
     
-    public String getDocumentType() { return documentType; }
-    public void setDocumentType(String documentType) { this.documentType = documentType; }
+    public String getDocumentType() {
+    	return documentType != null ? documentType.name() : null;
+    }
+    public void setDocumentType(String documentType) {
+    	this.documentType = DocumentType.fromString(documentType);
+    	}
     
     public String getFileName() { return fileName; }
     public void setFileName(String fileName) { this.fileName = fileName; }

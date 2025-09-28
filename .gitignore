@@ -1,0 +1,75 @@
+# --- Java ---
+*.class
+*.log
+*.ctxt
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+
+# --- Maven ---
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# (Keep the Maven Wrapper files committed, don't ignore .mvn/wrapper/*)
+
+# --- Gradle ---
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar   # keep wrapper jar
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# --- Eclipse / STS ---
+.project
+.classpath
+.settings/
+.factorypath
+.springBeans
+
+# --- NetBeans ---
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.cache/
+.nb-gradle/
+
+# --- VS Code ---
+.vscode/
+
+# --- App servers (Tomcat/Jetty) ---
+logs/
+work/
+temp/
+.jetty/
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- Local env & secrets (adjust as needed) ---
+.env
+.env.*
+*.local
+*.local.*
+
+# --- App-specific (file uploads saved locally) ---
+uploads/
+
