@@ -8,17 +8,15 @@
 	},
 	"item": [
 		{
-			"name": "New Request",
+			"name": "university-profile-service/api/profiles",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/university-profile-service/api/profiles",
-					"protocol": "http",
+					"raw": "{{baseURL}}/university-profile-service/api/profiles",
 					"host": [
-						"localhost"
+						"{{baseURL}}"
 					],
-					"port": "8080",
 					"path": [
 						"university-profile-service",
 						"api",
@@ -27,6 +25,89 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "http://localhost:8080/university-profile-service/api/profiles/1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/university-profile-service/api/profiles/1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"university-profile-service",
+						"api",
+						"profiles",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/university-profile-service/api/profiles/1/documents",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/university-profile-service/api/profiles/1/documents",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"university-profile-service",
+						"api",
+						"profiles",
+						"1",
+						"documents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/university-profile-service/api/profiles/1/documents/1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/university-profile-service/api/profiles/1/documents/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"university-profile-service",
+						"api",
+						"profiles",
+						"1",
+						"documents",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
 		}
 	]
 }
