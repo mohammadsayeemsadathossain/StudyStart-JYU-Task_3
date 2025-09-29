@@ -145,18 +145,18 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/pdf",
+						"value": "image/png",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "file",
 					"file": {
-						"src": "/C:/Users/ASUS/Downloads/Chowdhury, M DVV.pdf"
+						"src": "/C:/Users/ASUS/Downloads/3325.jpg"
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/university-profile-service/api/profiles/3/documents/RP_CARD/upload",
+					"raw": "http://localhost:8080/university-profile-service/api/profiles/3/documents/PASSPORT/upload",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -168,7 +168,7 @@
 						"profiles",
 						"3",
 						"documents",
-						"RP_CARD",
+						"PASSPORT",
 						"upload"
 					]
 				}
