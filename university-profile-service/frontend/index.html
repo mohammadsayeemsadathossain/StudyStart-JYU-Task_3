@@ -479,116 +479,6 @@
             });
         }
 
-        // Оновлення документа
-        async function updateDocument(profileId, documentId) {
-            const newDocumentType = prompt('Enter new document type (PASSPORT, RP_CARD, ACCEPTANCE_LETTER):', '');
-            if (!newDocumentType) return;
-
-            const validTypes = ['PASSPORT', 'RP_CARD', 'ACCEPTANCE_LETTER'];
-            if (!validTypes.includes(newDocumentType)) {
-                showMessage('Invalid document type. Use PASSPORT, RP_CARD, or ACCEPTANCE_LETTER.', 'error');
-                return;
-            }
-
-            try {
-                const response = await fetch(`${API_BASE}/profiles/${profileId}/documents/${documentId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ documentType: newDocumentType })
-                });
-
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-                await loadDocuments(profileId, currentProfileName);
-                showMessage('Document updated successfully!', 'success');
-            } catch (error) {
-                console.error('Error updating document:', error);
-                showMessage('Error updating document. Please try again.', 'error');
-            }
-        }
-
-        // Видалення документа
-        async function deleteDocument(profileId, documentId) {
-            if (!confirm('Are you sure you want to delete this document?')) return;
-
-            try {
-                const response = await fetch(`${API_BASE}/profiles/${profileId}/documents/${documentId}`, {
-                    method: 'DELETE'
-                });
-
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-                await loadDocuments(profileId, currentProfileName);
-                showMessage('Document deleted successfully!', 'success');
-                updateStatistics();
-            } catch (error) {
-                console.error('Error deleting document:', error);
-                showMessage('Error deleting document. Please try again.', 'error');
-            }
-        }
-
-        async function handleDocumentUpload(e) {
-            e.preventDefault();
-            const documentType = document.getElementById('documentType').value;
-            const fileInput = document.getElementById('documentFile');
-            const errorDiv = document.getElementById('uploadDocumentError');
-
-            if (!documentType || !fileInput.files.length) {
-                errorDiv.textContent = 'Please select a document type and file.';
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            const file = fileInput.files[0];
-            const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
-            if (!allowedTypes.includes(file.type)) {
-                errorDiv.textContent = 'Only PDF, JPEG, or PNG files are allowed.';
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            // Optional: Add file size validation
-            const maxFileSize = 5 * 1024 * 1024; // 5MB
-            if (file.size > maxFileSize) {
-                errorDiv.textContent = 'File size exceeds 5MB limit.';
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            try {
-                const formData = new FormData();
-                formData.append("file", file);
-                formData.append("documentType", documentType);
-
-                const response = await fetch(`${API_BASE}/profiles/${currentProfileId}/documents/${documentType}/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    if (response.status === 400) {
-                        throw new Error('Invalid request. Ensure document type and file are valid.');
-                    } else if (response.status === 415) {
-                        throw new Error('Unsupported file type. Only PDF, JPEG, or PNG are allowed.');
-                    } else {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                }
-
-                const result = await response.json();
-                const createdDocument = result.document; // Extract the document from the nested response
-
-                await loadDocuments(currentProfileId, currentProfileName);
-                document.getElementById('uploadDocumentForm').reset();
-                errorDiv.style.display = 'none';
-                showMessage('Document uploaded successfully!', 'success');
-                updateStatistics();
-            } catch (error) {
-                console.error('Error uploading document:', error);
-                errorDiv.textContent = error.message || 'Error uploading document. Please try again.';
-                errorDiv.style.display = 'block';
-            }
-        }
         function closeModal() {
             document.getElementById('profileModal').style.display = 'none';
         }
@@ -634,6 +524,185 @@
                 closeDocumentsModal();
             }
         }
+
+        async function addDocument(profileId, documentData) {
+            try {
+                const response = await fetch(
+                    `${API_BASE}/profiles/${profileId}/documents`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(documentData)
+                    }
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const newDocument = await response.json();
+                showMessage('Document added successfully!', 'success');
+                return newDocument;
+            } catch (error) {
+                console.error('Error adding document:', error);
+                showMessage('Error adding document. Please try again.', 'error');
+                throw error;
+            }
+        }
+
+        // Upload Document Handler
+        document.getElementById('uploadDocumentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const errorDiv = document.getElementById('uploadDocumentError');
+            errorDiv.style.display = 'none';
+            
+            const documentType = document.getElementById('documentType').value;
+            const fileInput = document.getElementById('documentFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                errorDiv.textContent = 'Please select a file';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                // Upload file as binary
+                const uploadResponse = await fetch(
+                    `${API_BASE}/profiles/${currentProfileId}/documents/${documentType}/upload`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': file.type,
+                            'Content-Length': file.size.toString()
+                        },
+                        body: file
+                    }
+                );
+                
+                if (!uploadResponse.ok) {
+                    const errorText = await uploadResponse.text();
+                    throw new Error(`Upload failed: ${errorText}`);
+                }
+                
+                // Success - reload documents
+                showMessage('Document uploaded successfully!', 'success');
+                document.getElementById('uploadDocumentForm').reset();
+                loadDocuments(currentProfileId, currentProfileName);
+                
+            } catch (error) {
+                console.error('Error uploading document:', error);
+                errorDiv.textContent = `Error: ${error.message}`;
+                errorDiv.style.display = 'block';
+            }
+        });
+
+
+        // Update Document
+        async function updateDocument(profileId, documentId) {
+            try {
+                // Get current document
+                const getResponse = await fetch(`${API_BASE}/profiles/${profileId}/documents/${documentId}`);
+                
+                if (!getResponse.ok) {
+                    if (getResponse.status === 404) {
+                        showMessage('Document not found. It may have been deleted.', 'error');
+                        loadDocuments(profileId, currentProfileName);
+                        return;
+                    }
+                    throw new Error(`Failed to fetch document: ${getResponse.status}`);
+                }
+                
+                const document = await getResponse.json();
+                console.log('Fetched document:', document);
+                
+                // Prompt for new document type
+                const newDocType = prompt(
+                    'Enter new document type:\n1. PASSPORT\n2. RP_CARD\n3. ACCEPTANCE_LETTER\n\nCurrent: ' + document.documentType,
+                    document.documentType
+                );
+                if (!newDocType) return;
+                
+                const validTypes = ['PASSPORT', 'RP_CARD', 'ACCEPTANCE_LETTER'];
+                if (!validTypes.includes(newDocType.toUpperCase())) {
+                    alert('Invalid document type. Please use: PASSPORT, RP_CARD, or ACCEPTANCE_LETTER');
+                    return;
+                }
+                
+                // Prompt for new status
+                const newStatus = prompt(
+                    'Enter new status:\n1. UPLOADED\n2. VERIFIED\n3. REJECTED\n\nCurrent: ' + document.status,
+                    document.status
+                );
+                if (!newStatus) return;
+                
+                const validStatuses = ['UPLOADED', 'VERIFIED', 'REJECTED'];
+                if (!validStatuses.includes(newStatus.toUpperCase())) {
+                    alert('Invalid status. Please use: UPLOADED, VERIFIED, or REJECTED');
+                    return;
+                }
+                
+                // Update document - send only necessary fields
+                const updateData = {
+                    id: document.id,
+                    profileId: document.profileId,
+                    documentType: newDocType.toUpperCase(),
+                    fileName: document.fileName,
+                    status: newStatus.toUpperCase(),
+                    uploadDate: document.uploadDate,
+                    expiryDate: document.expiryDate
+                };
+                
+                console.log('Sending update:', updateData);
+                
+                const response = await fetch(
+                    `${API_BASE}/profiles/${profileId}/documents/${documentId}`,
+                    {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(updateData)
+                    }
+                );
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Update failed:', errorText);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                showMessage('Document updated successfully!', 'success');
+                loadDocuments(profileId, currentProfileName);
+            } catch (error) {
+                console.error('Error updating document:', error);
+                showMessage('Error updating document: ' + error.message, 'error');
+            }
+        }
+
+        // Delete Document
+        async function deleteDocument(profileId, documentId) {
+            if (!confirm('Are you sure you want to delete this document?')) return;
+            
+            try {
+                const response = await fetch(
+                    `${API_BASE}/profiles/${profileId}/documents/${documentId}`,
+                    {
+                        method: 'DELETE'
+                    }
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                showMessage('Document deleted successfully!', 'success');
+                loadDocuments(profileId, currentProfileName);
+            } catch (error) {
+                console.error('Error deleting document:', error);
+                showMessage('Error deleting document. Please try again.', 'error');
+            }
+        }
+
     </script>
 </body>
 </html>
