@@ -26,6 +26,8 @@ public class RestApplication extends Application {
         classes.add(ProfileNotFoundExceptionMapper.class);
         classes.add(BadRequestExceptionMapper.class);
         
+        classes.add(CORSFilter.class);
+        
         return classes;
     }
 }
