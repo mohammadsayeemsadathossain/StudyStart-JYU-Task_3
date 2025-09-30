@@ -28,7 +28,7 @@ import fi.jyu.ties4560.rest.model.Document;
 import fi.jyu.ties4560.rest.model.DocumentType;
 import fi.jyu.ties4560.rest.service.DocumentService;
 
-@Path("/profiles/{profileId}/documents/{documentType}")
+@Path("/profiles/{profileId}/documents/new/{documentType}")
 @Produces(MediaType.APPLICATION_JSON)
 public class DocumentUploadResource {
 	private final DocumentService documentService = new DocumentService();
