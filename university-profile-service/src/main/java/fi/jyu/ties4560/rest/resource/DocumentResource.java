@@ -7,7 +7,7 @@ import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
 
-@Path("/")
+@Path("/profiles/{profileId}/documents")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DocumentResource {
